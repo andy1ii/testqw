@@ -29,13 +29,13 @@ canvas {
   position: absolute;
   top: 12px;
   left: 12px;
-  width: 240px; /* Slimmed down slightly to match the compact height */
-  max-height: 75vh; /* Limits height to 75%, leaving a 25% (2/8) gap at the bottom */
+  width: 200px; /* Reduced from 240px to make it skinnier */
+  max-height: 95vh; /* Expanded max-height to allow more room before scrolling */
   pointer-events: none; /* Let clicks pass through empty space to the canvas */
   z-index: 10;
   display: flex;
   flex-direction: column;
-  gap: 6px; /* Reduced from 8px */
+  gap: 4px; /* Tightened gap between panels */
   overflow-y: auto;
 }
 
@@ -51,7 +51,7 @@ canvas {
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 6px;
-  padding: 10px 12px; /* Reduced from 14px */
+  padding: 8px 10px; /* Reduced internal padding */
   pointer-events: auto; /* Re-enable clicks inside panels */
   box-shadow: 0 4px 12px rgba(0,0,0,0.08);
   border: 1px solid rgba(255,255,255,0.4);
@@ -63,29 +63,29 @@ canvas {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px; /* Reduced from 10px 14px */
+  padding: 6px 10px; /* Compacted header padding */
 }
 
 .header-title {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
   font-weight: 500;
   font-size: 13px;
 }
 
 /* Fixes squishing & forces the logo black */
 .brand-logo {
-  height: 16px; /* Match icon size */
+  height: 14px; /* Scaled down slightly */
   width: auto;  /* Allows width to scale naturally to prevent squishing */
   filter: brightness(0); /* Forces any white/colored pixels to pure black */
 }
 
 /* Typography & Labels */
 .section-label {
-  font-size: 11px; /* Scaled down from 13px */
+  font-size: 11px;
   color: rgba(0, 0, 0, 0.5); /* 50% of pure black */
-  margin-bottom: 4px; /* Reduced from 8px */
+  margin-bottom: 2px; /* Tighter margin */
   font-weight: 400; 
 }
 
@@ -94,15 +94,15 @@ canvas {
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 2px; /* Tighter gap between list items */
 }
 
 .menu-list li {
   display: flex;
   align-items: center;
-  gap: 8px; /* Reduced from 10px */
-  padding: 2px 0; /* Reduced from 4px 0 */
-  font-size: 12px; /* Scaled down from 13px */
+  gap: 8px;
+  padding: 1px 0; /* Compacted padding */
+  font-size: 12px;
   cursor: pointer;
   color: rgba(0, 0, 0, 0.5); /* 50% of pure black */
   font-weight: 400; /* No bolding */
@@ -143,7 +143,7 @@ canvas {
 .menu-list li.active .check-icon {
   display: block; /* Show only on active */
   position: absolute;
-  right: 4px; /* Push to the right edge */
+  right: 2px; /* Push to the right edge */
 }
 
 .menu-list li.disabled {
@@ -158,7 +158,7 @@ canvas {
 /* Action Buttons */
 .action-btn {
   width: 100%;
-  padding: 6px; /* Reduced from 8px */
+  padding: 4px; /* Compacted padding */
   background-color: #cfd3ca;
   border: none;
   border-radius: 4px;
@@ -180,7 +180,7 @@ canvas {
 /* Upload Dropzone Button */
 .upload-dropzone {
   width: 100%;
-  padding: 10px; /* Reduced from 16px 10px */
+  padding: 6px; /* Compacted padding */
   background-color: transparent; 
   border: 1px dashed rgba(0, 0, 0, 0.25);
   border-radius: 4px;
@@ -189,8 +189,8 @@ canvas {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px; /* Reduced from 8px */
-  font-size: 11px; /* Reduced from 12px */
+  gap: 2px; /* Tighter gap */
+  font-size: 11px;
   color: rgba(0, 0, 0, 0.6);
   transition: all 0.15s ease;
 }
@@ -212,7 +212,7 @@ canvas {
 
 /* Form Controls & Variables */
 .control-group {
-  margin-bottom: 8px; /* Reduced from 12px */
+  margin-bottom: 6px; /* Tighter margin */
 }
 
 .control-group:last-child {
@@ -223,7 +223,7 @@ canvas {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 2px; /* Tighter margin */
 }
 
 .control-group label {
@@ -236,10 +236,10 @@ canvas {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 6px; /* Reduced from 6px 8px */
+  padding: 2px 6px; /* Compacted padding */
   background-color: rgba(212, 216, 209, 0.4);
   border-radius: 4px;
-  margin-bottom: 3px; /* Reduced from 4px */
+  margin-bottom: 2px; /* Tighter margin */
   font-size: 11px;
   font-weight: 400;
 }
@@ -247,12 +247,12 @@ canvas {
 .color-left {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .swatch {
-  width: 14px;
-  height: 14px;
+  width: 12px; /* Slightly smaller swatches */
+  height: 12px;
   border-radius: 3px;
   display: inline-block;
 }
@@ -265,7 +265,7 @@ canvas {
 /* Dropdowns / Inputs */
 .input-row {
   display: flex;
-  gap: 6px;
+  gap: 4px; /* Tighter gap */
 }
 
 /* Custom Select Container */
@@ -281,7 +281,7 @@ canvas {
 /* The visible button */
 .select-selected {
   background-color: #d8dbd3;
-  padding: 4px 24px 4px 6px;
+  padding: 2px 20px 2px 6px; /* Compacted padding */
   border-radius: 4px;
   font-size: 11px;
   font-weight: 400;
@@ -289,7 +289,7 @@ canvas {
   cursor: pointer;
   background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%226%22%20viewBox%3D%220%200%2010%206%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M1%201L5%205L9%201%22%20stroke%3D%22%232D312E%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E");
   background-repeat: no-repeat;
-  background-position: right 6px center;
+  background-position: right 4px center;
   user-select: none;
   transition: background 0.1s;
 }
@@ -317,7 +317,7 @@ canvas {
 
 /* Individual options */
 .select-items div {
-  padding: 6px 8px;
+  padding: 4px 8px; /* Compacted padding */
   font-size: 11px;
   color: #2d312e;
   cursor: pointer;
