@@ -1,0 +1,329 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  /* Uses Apple's native system font (SF Pro) first */
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro", system-ui, sans-serif;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #1c1c1c; 
+}
+
+/* Force the p5 canvas to be a full-screen background behind the UI */
+canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw !important;
+  height: 100vh !important;
+  z-index: 1;
+}
+
+/* Base UI Overlay Container */
+#ui-container {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  width: 240px; /* Slimmed down slightly to match the compact height */
+  max-height: 75vh; /* Limits height to 75%, leaving a 25% (2/8) gap at the bottom */
+  pointer-events: none; /* Let clicks pass through empty space to the canvas */
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* Reduced from 8px */
+  overflow-y: auto;
+}
+
+/* Hide scrollbar for cleaner look */
+#ui-container::-webkit-scrollbar {
+  display: none;
+}
+
+/* The Floating Panels (Glassmorphism) */
+.ui-panel {
+  position: relative;
+  background-color: rgba(235, 238, 233, 0.85); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 6px;
+  padding: 10px 12px; /* Reduced from 14px */
+  pointer-events: auto; /* Re-enable clicks inside panels */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  border: 1px solid rgba(255,255,255,0.4);
+  color: #2d312e;
+}
+
+/* --- Header Panel specific --- */
+.header-panel {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 12px; /* Reduced from 10px 14px */
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+/* Fixes squishing & forces the logo black */
+.brand-logo {
+  height: 16px; /* Match icon size */
+  width: auto;  /* Allows width to scale naturally to prevent squishing */
+  filter: brightness(0); /* Forces any white/colored pixels to pure black */
+}
+
+/* Typography & Labels */
+.section-label {
+  font-size: 11px; /* Scaled down from 13px */
+  color: rgba(0, 0, 0, 0.5); /* 50% of pure black */
+  margin-bottom: 4px; /* Reduced from 8px */
+  font-weight: 400; 
+}
+
+/* Lists and Menus */
+.menu-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.menu-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Reduced from 10px */
+  padding: 2px 0; /* Reduced from 4px 0 */
+  font-size: 12px; /* Scaled down from 13px */
+  cursor: pointer;
+  color: rgba(0, 0, 0, 0.5); /* 50% of pure black */
+  font-weight: 400; /* No bolding */
+  position: relative;
+  transition: color 0.15s;
+}
+
+/* External images need opacity controls to simulate fading */
+.menu-list li img.mode-icon {
+  opacity: 0.5; /* Match 50% text fade */
+  transition: opacity 0.15s;
+}
+
+.menu-list li:hover:not(.disabled) {
+  color: rgba(0, 0, 0, 0.8); /* Darkens slightly to 80% black on hover */
+}
+
+.menu-list li:hover:not(.disabled) img.mode-icon {
+  opacity: 0.8;
+}
+
+/* --- THE ACTIVE SELECTION --- */
+.menu-list li.active {
+  font-weight: 400; /* Normal weight, NOT bold */
+  color: #000000; /* Solid pure black */
+  background-color: transparent; 
+}
+
+.menu-list li.active img.mode-icon {
+  opacity: 1; /* Solid image */
+}
+
+/* Checkmark logic */
+.check-icon {
+  display: none; /* Hidden by default */
+}
+
+.menu-list li.active .check-icon {
+  display: block; /* Show only on active */
+  position: absolute;
+  right: 4px; /* Push to the right edge */
+}
+
+.menu-list li.disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.menu-list li.disabled:hover {
+  background: transparent;
+}
+
+/* Action Buttons */
+.action-btn {
+  width: 100%;
+  padding: 6px; /* Reduced from 8px */
+  background-color: #cfd3ca;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: #2d312e;
+  font-weight: 400;
+  transition: background 0.1s;
+}
+
+.action-btn:hover {
+  background-color: #c2c7bc;
+}
+
+/* Upload Dropzone Button */
+.upload-dropzone {
+  width: 100%;
+  padding: 10px; /* Reduced from 16px 10px */
+  background-color: transparent; 
+  border: 1px dashed rgba(0, 0, 0, 0.25);
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px; /* Reduced from 8px */
+  font-size: 11px; /* Reduced from 12px */
+  color: rgba(0, 0, 0, 0.6);
+  transition: all 0.15s ease;
+}
+
+.upload-dropzone:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+  border-color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.8);
+}
+
+.upload-dropzone img {
+  opacity: 0.6;
+  transition: opacity 0.15s ease;
+}
+
+.upload-dropzone:hover img {
+  opacity: 0.8;
+}
+
+/* Form Controls & Variables */
+.control-group {
+  margin-bottom: 8px; /* Reduced from 12px */
+}
+
+.control-group:last-child {
+  margin-bottom: 0;
+}
+
+.group-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.control-group label {
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.5); /* 50% of pure black */
+}
+
+/* Color Swatch Rows */
+.color-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 6px; /* Reduced from 6px 8px */
+  background-color: rgba(212, 216, 209, 0.4);
+  border-radius: 4px;
+  margin-bottom: 3px; /* Reduced from 4px */
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.color-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.swatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  display: inline-block;
+}
+
+.pct {
+  color: rgba(0, 0, 0, 0.5); /* 50% of pure black */
+  font-size: 10px;
+}
+
+/* Dropdowns / Inputs */
+.input-row {
+  display: flex;
+  gap: 6px;
+}
+
+/* Custom Select Container */
+.custom-select {
+  position: relative;
+  flex: 1;
+}
+
+.custom-select.full-width {
+  width: 100%;
+}
+
+/* The visible button */
+.select-selected {
+  background-color: #d8dbd3;
+  padding: 4px 24px 4px 6px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 400;
+  color: #2d312e;
+  cursor: pointer;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20width%3D%2210%22%20height%3D%226%22%20viewBox%3D%220%200%2010%206%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M1%201L5%205L9%201%22%20stroke%3D%22%232D312E%22%20stroke-width%3D%221.5%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
+  user-select: none;
+  transition: background 0.1s;
+}
+
+.select-selected:hover, .select-selected.active {
+  background-color: #cfd3ca;
+}
+
+/* The popup drop-down list (NOW USING ABSOLUTE POSITIONING VIA JS IN THE BODY) */
+.select-items {
+  background-color: #d8dbd3; /* Matches the .select-selected static color */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Softened border to blend better */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  border-radius: 4px;
+  z-index: 9999; /* Massive z-index to stay on top of the entire screen */
+  overflow: hidden;
+}
+
+/* Hide the list by default */
+.select-hide {
+  display: none;
+}
+
+/* Individual options */
+.select-items div {
+  padding: 6px 8px;
+  font-size: 11px;
+  color: #2d312e;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+
+.select-items div:hover {
+  background-color: #cfd3ca; /* Matches the .select-selected hover color */
+}

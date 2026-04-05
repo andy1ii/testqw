@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Generator</title>
+  <link rel="stylesheet" href="style.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.js"></script>
+</head>
+<body>
+  
+  <div id="ui-container">
+    
+    <div class="ui-panel header-panel">
+      <div class="header-title">
+        <img src="resources/CursorLogoRevised.png" alt="Cursor Logo" class="brand-logo">
+        <span>Generator</span>
+      </div>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+    </div>
+
+    <div class="ui-panel">
+      <div class="section-label">Style</div>
+      <ul id="mode-selector" class="menu-list">
+        <li class="disabled">
+          <img src="resources/1.svg" class="mode-icon" alt="Linework" width="14" height="14">
+          Linework
+        </li>
+        <li data-mode="cube" class="active">
+          <img src="resources/2.svg" class="mode-icon" alt="Raster" width="14" height="14">
+          Raster
+          <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        </li>
+        <li data-mode="mesh">
+          <img src="resources/3.svg" class="mode-icon" alt="Kinetic" width="14" height="14">
+          Kinetic
+          <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        </li>
+        <li data-mode="shader">
+          <img src="resources/4.svg" class="mode-icon" alt="3D Geometry" width="14" height="14">
+          3D Geometry
+          <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        </li>
+        <li data-mode="flow">
+          <img src="resources/5.svg" class="mode-icon" alt="Pen Plotter" width="14" height="14">
+          Pen Plotter
+          <svg class="check-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        </li>
+        <li class="disabled">
+          <img src="resources/default.svg" class="mode-icon" alt="Shaders" width="14" height="14">
+          Shaders
+        </li>
+      </ul>
+
+      <div class="section-label" style="margin-top: 12px;">Illustration</div>
+      <ul class="menu-list">
+        <li class="disabled">
+          <img src="resources/default.svg" class="mode-icon" alt="Preset Spot" width="14" height="14"> 
+          Preset Spot
+        </li>
+        <li class="disabled">
+          <img src="resources/default.svg" class="mode-icon" alt="Parametric Generator" width="14" height="14"> 
+          Parametric Generator
+        </li>
+      </ul>
+    </div>
+
+    <div class="ui-panel">
+      <div class="section-label">Image</div>
+      <button id="upload-btn" class="upload-dropzone">
+        <img src="resources/upload.svg" alt="Upload" width="16" height="16">
+        <span>Upload image</span>
+      </button>
+      <input type="file" id="file-upload" accept="image/*" style="display: none;">
+    </div>
+
+    <div class="ui-panel">
+      <div class="section-label">Variables</div>
+      
+      <div class="control-group">
+        <div class="group-header">
+          <label>Color set</label>
+          <svg id="shuffle-btn" style="cursor:pointer; opacity:0.6;" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+        </div>
+        
+        <div class="color-row"><div class="color-left"><span class="swatch" style="background:#467640"></span><span>467640</span></div><span class="pct">100%</span></div>
+        <div class="color-row"><div class="color-left"><span class="swatch" style="background:#C2CB7F"></span><span>C2CB7F</span></div><span class="pct">100%</span></div>
+        <div class="color-row"><div class="color-left"><span class="swatch" style="background:#7DBA97"></span><span>7DBA97</span></div><span class="pct">100%</span></div>
+        <div class="color-row"><div class="color-left"><span class="swatch" style="background:#284A3A"></span><span>284A3A</span></div><span class="pct">100%</span></div>
+      </div>
+
+      <div class="control-group">
+        <label>Background Color</label>
+        <div class="color-row"><div class="color-left"><span class="swatch" style="background:#000000; border: 1px solid #ccc;"></span><span>D7D2CD</span></div><span class="pct">100%</span></div>
+      </div>
+
+      <div class="control-group">
+        <label>Line Density</label>
+        <div class="input-row">
+          <div class="custom-select">
+            <div class="select-selected" data-value="1">1</div>
+            <div class="select-items select-hide">
+              <div>1</div>
+              <div>2</div>
+              <div>3</div>
+            </div>
+          </div>
+          <div class="custom-select">
+            <div class="select-selected" data-value="Solid">Solid</div>
+            <div class="select-items select-hide">
+              <div>Solid</div>
+              <div>Dashed</div>
+              <div>Dotted</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Preset</label>
+        <div class="custom-select full-width">
+          <div class="select-selected" data-value="Style 1">Style 1</div>
+          <div class="select-items select-hide">
+            <div>Style 1</div>
+            <div>Style 2</div>
+            <div>Style 3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>Speed</label>
+        <div class="custom-select full-width">
+          <div class="select-selected" data-value="30">30</div>
+          <div class="select-items select-hide">
+            <div>10</div>
+            <div>30</div>
+            <div>60</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui-panel">
+      <div class="section-label">Export</div>
+      <div class="input-row" style="margin-bottom: 8px;">
+        <div class="custom-select">
+          <div class="select-selected" data-value="1x">1x</div>
+          <div class="select-items select-hide">
+            <div>1x</div>
+            <div>2x</div>
+            <div>4x</div>
+          </div>
+        </div>
+        <div class="custom-select">
+          <div class="select-selected" data-value="PNG">PNG</div>
+          <div class="select-items select-hide">
+            <div>PNG</div>
+            <div>JPG</div>
+            <div>SVG</div>
+          </div>
+        </div>
+      </div>
+      <button class="action-btn">Export</button>
+    </div>
+
+  </div>
+
+  <script src="brandPalette.js"></script>
+  <script src="colorHarmony.js"></script>
+  <script src="mesh.js"></script>
+  <script src="flow.js"></script>
+  <script src="cube.js"></script>
+  <script src="geometry.js"></script>
+  <script src="sketch.js"></script>
+
+  <script>
+    window.currentMode = 'cube'; 
+
+    document.addEventListener('DOMContentLoaded', () => {
+      
+      // Handle the Mode Selector
+      const modeItems = document.querySelectorAll('#mode-selector li:not(.disabled)');
+      modeItems.forEach(item => {
+        item.addEventListener('click', function() {
+          modeItems.forEach(i => i.classList.remove('active'));
+          this.classList.add('active');
+          window.currentMode = this.dataset.mode;
+        });
+      });
+
+      // --- NEW BULLETPROOF DROPDOWN LOGIC ---
+      
+      function closeAllDropdowns() {
+        document.querySelectorAll('.select-items').forEach(item => item.classList.add('select-hide'));
+        document.querySelectorAll('.select-selected').forEach(btn => btn.classList.remove('active'));
+      }
+
+      // Close dropdowns if clicking anywhere else
+      document.addEventListener("click", function(e) {
+        if (!e.target.matches('.select-selected')) {
+          closeAllDropdowns();
+        }
+      });
+
+      // Close dropdowns if the user scrolls the panel or resizes the window
+      document.getElementById('ui-container').addEventListener('scroll', closeAllDropdowns);
+      window.addEventListener('resize', closeAllDropdowns);
+
+      // Setup portals (Move menus to body so they can't be cropped)
+      document.querySelectorAll('.custom-select').forEach(select => {
+        const btn = select.querySelector('.select-selected');
+        const dropdown = select.querySelector('.select-items');
+        
+        // Physically move the menu out of the panel and onto the body
+        document.body.appendChild(dropdown);
+        
+        // Link them together in memory
+        btn._dropdown = dropdown;
+        dropdown._btn = btn;
+
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const isOpening = this._dropdown.classList.contains('select-hide');
+          
+          closeAllDropdowns();
+          
+          if (isOpening) {
+            this.classList.add('active');
+            this._dropdown.classList.remove('select-hide');
+            
+            // Calculate EXACT position on screen
+            const rect = this.getBoundingClientRect();
+            this._dropdown.style.position = 'absolute';
+            this._dropdown.style.top = (rect.bottom + 4) + 'px';
+            this._dropdown.style.left = rect.left + 'px';
+            this._dropdown.style.width = rect.width + 'px';
+          }
+        });
+      });
+
+      // Handle option selection
+      document.querySelectorAll('.select-items div').forEach(option => {
+        option.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          const dropdown = this.parentElement;
+          const btn = dropdown._btn; // Get the button we linked earlier
+          
+          // Update text and data-value
+          btn.innerText = this.innerText;
+          btn.dataset.value = this.innerText; 
+          
+          // Trigger a custom event so your p5.js script knows it changed
+          btn.dispatchEvent(new Event('change'));
+
+          // Hide the list
+          dropdown.classList.add('select-hide');
+          btn.classList.remove('active');
+        });
+      });
+    });
+  </script>
+</body>
+</html>
